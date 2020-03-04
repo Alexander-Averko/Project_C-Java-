@@ -1,9 +1,10 @@
 package TileMap;
 
+import Main.GamePanel;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import Main.GamePanel;
 public class Background {
 
     private BufferedImage image;
@@ -13,7 +14,7 @@ public class Background {
     private double dx;
     private double dy;
 
-    private double moveScale;
+    private double moveScale = 1;
 
     public Background(String s, double ms) {
 
@@ -38,18 +39,25 @@ public class Background {
     }
 
     public void update() {
-        x += dx;
-        y += dy;
+//        x += dx;
+//        y += dy;
+
+        x = dx;
+        y = dy;
     }
 
     public void draw(Graphics2D g) {
-        g.drawImage(image, (int)x, (int)y, null);
-        if (x < 0) {
-            g. drawImage(image, (int)x + GamePanel.WIDTH, (int)y, null);
-        }
-        if (x > 0) {
-            g. drawImage(image, (int)x - GamePanel.WIDTH, (int)y, null);
-        }
+        g.drawImage(image, (int)x, (int)y, GamePanel.WIDTH * GamePanel.SCALE, GamePanel.HEIGHT * GamePanel.SCALE, null);
+
+        System.out.println(GamePanel.WIDTH * GamePanel.SCALE);
+
+//        if (x < 0) {
+//            g. drawImage(image, (int)x + GamePanel.WIDTH, (int)y, null);
+//        }
+//
+//        if (x > 0) {
+//            g. drawImage(image, (int)x - GamePanel.WIDTH, (int)y, null);
+//        }
     }
 
 }

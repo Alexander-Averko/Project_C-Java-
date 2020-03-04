@@ -2,6 +2,7 @@ package GameState;
 
 
 
+import Main.GamePanel;
 import TileMap.Background;
 
 import java.awt.*;
@@ -36,7 +37,7 @@ public class MenuState extends GameState {
             bg.setVector(-0.1, 0);
 
             titleColor = new Color(128, 0, 0);
-            titleFont = new Font("Century Gothic", Font.PLAIN, 28);
+            titleFont = new Font("Century Gothic", Font.BOLD, 28);
 
             font = new Font("Arial", Font.PLAIN, 12);
 
@@ -63,7 +64,7 @@ public class MenuState extends GameState {
         //draw title
         g.setColor(titleColor);
         g.setFont(titleFont);
-        g.drawString("Project C", 80, 70);
+        g.drawString("Project C", GamePanel.WIDTH * GamePanel.SCALE / 2, 70);
 
         //draw menu options
         g.setFont(font);

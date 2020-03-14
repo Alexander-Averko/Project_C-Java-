@@ -3,6 +3,7 @@ package TileMap;
 import Main.GamePanel;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 public class Background {
@@ -18,7 +19,7 @@ public class Background {
 
     public Background(String s, double ms) {
 
-
+        moveScale = ms;
         try {
             image = ImageIO.read(
                     getClass().getResourceAsStream(s)
@@ -49,7 +50,7 @@ public class Background {
     public void draw(Graphics2D g) {
         g.drawImage(image, (int)x, (int)y, GamePanel.WIDTH * GamePanel.SCALE, GamePanel.HEIGHT * GamePanel.SCALE, null);
 
-        System.out.println(GamePanel.WIDTH * GamePanel.SCALE);
+        //System.out.println(GamePanel.WIDTH * GamePanel.SCALE);
 
 //        if (x < 0) {
 //            g. drawImage(image, (int)x + GamePanel.WIDTH, (int)y, null);

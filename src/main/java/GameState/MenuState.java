@@ -28,7 +28,7 @@ public class MenuState extends GameState {
 
 
     public MenuState(GameStateManager gameStateManager) {
-        this.gsm = gsm;
+        this.gsm = gameStateManager;
 
         try {
 
@@ -37,9 +37,9 @@ public class MenuState extends GameState {
             bg.setVector(-0.1, 0);
 
             titleColor = new Color(128, 0, 0);
-            titleFont = new Font("Century Gothic", Font.BOLD, 28);
+            titleFont = new Font("Century Gothic", Font.BOLD, 28 * GamePanel.SCALE);
 
-            font = new Font("Arial", Font.PLAIN, 12);
+            font = new Font("Arial", Font.PLAIN, 20 * GamePanel.SCALE);
 
 
         } catch (Exception e) {
@@ -70,23 +70,27 @@ public class MenuState extends GameState {
         g.setFont(font);
         for (int i = 0; i < options.length; i++) {
             if (i == currentChoice) {
-                g.setColor(Color.BLACK);
+                g.setColor(Color.WHITE);
             } else {
                 g.setColor(Color.RED);
             }
-            g.drawString(options[i],145, 140 + i * 15);
+            g.drawString(options[i],300, 140 + i * 30 * GamePanel.SCALE);
         }
     }
 
     private void select() {
+        System.out.println(currentChoice);
         if (currentChoice == 0) {
-            //start
+
+            gsm.setState(GameStateManager.LEVEL1STATE);
         }
         if (currentChoice == 1) {
             //help
+
         }
         if (currentChoice == 2) {
             //exit
+
             System.exit(0);
         }
     }

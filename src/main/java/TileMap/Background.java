@@ -6,6 +6,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+
 public class Background {
 
     private BufferedImage image;
@@ -48,7 +49,7 @@ public class Background {
     }
 
     public void draw(Graphics2D g) {
-        g.drawImage(image, (int)x, (int)y, GamePanel.WIDTH * GamePanel.SCALE, GamePanel.HEIGHT * GamePanel.SCALE, null);
+        g.drawImage(image, (int) x, (int) y, GamePanel.WIDTH * GamePanel.SCALE, GamePanel.HEIGHT * GamePanel.SCALE, null);
 
         //System.out.println(GamePanel.WIDTH * GamePanel.SCALE);
 

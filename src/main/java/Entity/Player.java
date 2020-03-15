@@ -88,7 +88,7 @@ public class Player extends MapObject {
             for (int i = 0; i < 7; i++) {
                 BufferedImage[] bi = new BufferedImage[numFrames[i]];
                 for (int j = 0; j < numFrames[i]; j++) {
-                    if (i != 6) {
+                    if (i != SCRATCHING) {
                         bi[j] = spritesheet.getSubimage(
                                 j * width,
                                 i * height,
@@ -99,7 +99,7 @@ public class Player extends MapObject {
                         bi[j] = spritesheet.getSubimage(
                                 j * width * 2,
                                 i * height,
-                                width,
+                                width * 2,
                                 height
                         );
                     }
@@ -188,7 +188,7 @@ public class Player extends MapObject {
             else dy += fallSpeed;
 
             if (dy < 0) jumping = false;
-            if(dy > 0 && !jumping) dy += maxFallSpeed;
+            if (dy > 0 && !jumping) dy += maxFallSpeed;
 
         }
     }
@@ -199,6 +199,14 @@ public class Player extends MapObject {
         getNextPosition();
         checkTileMapCollision();
         setPosition(xtemp, ytemp);
+
+        //check attack has stopped
+        if (currentAction == SCRATCHING) {
+            if (animation.hasPlayedOnce()) scratching = false;
+        }
+        if (currentAction == FIREBALL) {
+            if (animation.hasPlayedOnce()) firing = false;
+        }
 
         //set animation
         if (scratching) {

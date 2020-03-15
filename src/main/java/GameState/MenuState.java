@@ -1,7 +1,6 @@
 package GameState;
 
 
-
 import Main.GamePanel;
 import TileMap.Background;
 
@@ -19,12 +18,10 @@ public class MenuState extends GameState {
             "Quit"
     };
 
-    private Color  titleColor;
+    private Color titleColor;
     private Font titleFont;
 
     private Font font;
-
-
 
 
     public MenuState(GameStateManager gameStateManager) {
@@ -74,7 +71,7 @@ public class MenuState extends GameState {
             } else {
                 g.setColor(Color.RED);
             }
-            g.drawString(options[i],300, 140 + i * 30 * GamePanel.SCALE);
+            g.drawString(options[i], 300, 140 + i * 30 * GamePanel.SCALE);
         }
     }
 
@@ -101,14 +98,14 @@ public class MenuState extends GameState {
             select();
         }
 
-        if ((k == KeyEvent.VK_UP)){
+        if ((k == KeyEvent.VK_UP)) {
             currentChoice--;
             if (currentChoice == -1) {
                 currentChoice = options.length - 1;
             }
         }
 
-        if ((k == KeyEvent.VK_DOWN)){
+        if ((k == KeyEvent.VK_DOWN)) {
             currentChoice++;
             if (currentChoice == options.length) {
                 currentChoice = 0;

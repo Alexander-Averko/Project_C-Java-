@@ -50,7 +50,6 @@ public class TileMap {
     }
 
 
-
     public void loadTiles(String s) {
         try {
 

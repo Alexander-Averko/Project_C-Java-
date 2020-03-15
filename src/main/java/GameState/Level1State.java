@@ -26,7 +26,7 @@ public class Level1State extends GameState {
         tileMap = new TileMap(30);
         tileMap.loadTiles("/Tilesets/grasstileset.gif");
         tileMap.loadMap("/Maps/test.map");
-        tileMap.setPosition(0,0);
+        tileMap.setPosition(0, 0);
 
         bg = new Background("/Backgrounds/menubg.gif", 0.1);
 

@@ -37,7 +37,7 @@ public class Player extends MapObject {
     //animations
     private ArrayList<BufferedImage[]> sprites;
     private final int[] numFrames = {
-            2, 8, 1, 2, 4, 2, 5
+            3, 1, 1, 1, 1, 1, 1
     };
 
     //animation actions
@@ -52,10 +52,10 @@ public class Player extends MapObject {
     public Player(TileMap tm) {
         super(tm);
 
-        width = 30;
-        height = 30;
-        cwidth = 20;
-        cheight = 20;
+        width = 60;
+        height = 112;
+        cwidth = 40;
+        cheight = 30;
 
         moveSpeed = 0.3;
         maxSpeed = 1.6;
@@ -81,7 +81,7 @@ public class Player extends MapObject {
         try {
             BufferedImage spritesheet = ImageIO.read(
                     getClass().getResourceAsStream(
-                            "/Sprites/playersprites.gif"
+                            "/Sprites/test.gif"
                     )
             );
             sprites = new ArrayList<BufferedImage[]>();
@@ -188,20 +188,21 @@ public class Player extends MapObject {
             else dy += fallSpeed;
 
             if (dy < 0) jumping = false;
-            if (dy > 0 && !jumping) dy += maxFallSpeed;
+            if(dy > 0 && !jumping) dy += maxFallSpeed;
 
         }
     }
 
     public void update() {
 
+        System.out.println(currentAction);
         //update position
         getNextPosition();
         checkTileMapCollision();
         setPosition(xtemp, ytemp);
 
         //check attack has stopped
-        if (currentAction == SCRATCHING) {
+        if(currentAction == SCRATCHING) {
             if (animation.hasPlayedOnce()) scratching = false;
         }
         if (currentAction == FIREBALL) {
@@ -221,7 +222,7 @@ public class Player extends MapObject {
                 currentAction = FIREBALL;
                 animation.setFrames(sprites.get(FIREBALL));
                 animation.setDelay(100);
-                width = 30;
+                width = 60;
             }
         } else if (dy > 0) {
             if (gliding) {
@@ -229,34 +230,34 @@ public class Player extends MapObject {
                     currentAction = GLIDING;
                     animation.setFrames(sprites.get(GLIDING));
                     animation.setDelay(100);
-                    width = 30;
+                    width = 60;
                 }
             } else if (currentAction != FALLING) {
                 currentAction = FALLING;
                 animation.setFrames(sprites.get(FALLING));
                 animation.setDelay(100);
-                width = 30;
+                width = 60;
             }
         } else if (dy < 0) {
             if (currentAction != JUMPING) {
                 currentAction = JUMPING;
                 animation.setFrames(sprites.get(JUMPING));
                 animation.setDelay(-1);
-                width = 30;
+                width = 60;
             }
         } else if (left || right) {
             if (currentAction != WALKING) {
                 currentAction = WALKING;
                 animation.setFrames(sprites.get(WALKING));
                 animation.setDelay(40);
-                width = 30;
+                width = 60;
             }
         } else {
             if (currentAction != IDLE) {
                 currentAction = IDLE;
                 animation.setFrames(sprites.get(IDLE));
-                animation.setDelay(400);
-                width = 30;
+                animation.setDelay(300);
+                width = 60;
             }
         }
         animation.update();

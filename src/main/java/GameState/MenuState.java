@@ -6,16 +6,19 @@ import TileMap.Background;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.FileInputStream;
+
 
 public class MenuState extends GameState {
 
     private Background bg;
 
+
     private int currentChoice = 0;
     private String[] options = {
-            "Start",
-            "Help",
-            "Quit"
+            "START",
+            "SETTINGS",
+            "EXIT"
     };
 
     private Color titleColor;
@@ -24,19 +27,25 @@ public class MenuState extends GameState {
     private Font font;
 
 
+
     public MenuState(GameStateManager gameStateManager) {
         this.gsm = gameStateManager;
 
         try {
 
-            bg = new Background("/Backgrounds/menubg.gif", 1);
+            bg = new Background("/Backgrounds/menu_background2.png", 1);
 
             bg.setVector(-0.1, 0);
 
             titleColor = new Color(128, 0, 0);
             titleFont = new Font("Century Gothic", Font.BOLD, 28 * GamePanel.SCALE);
 
-            font = new Font("Arial", Font.PLAIN, 20 * GamePanel.SCALE);
+            //font = Font.createFont(Font.TYPE1_FONT, new FileInputStream("C:\\Users\\Acer\\Documents\\ProjectC\\src\\main\\resources\\Fonts\\of.ttf"))
+            //        .deriveFont(30f);
+            font = new Font("Century Gothic", Font.BOLD, 28 * GamePanel.SCALE);
+            //System.out.println(new FileInputStream("C:\\Users\\Acer\\Documents\\ProjectC\\src\\main\\resources\\Fonts\\font.ttf").available());
+
+
 
 
         } catch (Exception e) {
@@ -61,7 +70,7 @@ public class MenuState extends GameState {
         //draw title
         g.setColor(titleColor);
         g.setFont(titleFont);
-        g.drawString("Project C", GamePanel.WIDTH * GamePanel.SCALE / 2, 70);
+        //g.drawString("Project C", GamePanel.WIDTH * GamePanel.SCALE / 2 , 70);
 
         //draw menu options
         g.setFont(font);
@@ -71,9 +80,10 @@ public class MenuState extends GameState {
             } else {
                 g.setColor(Color.RED);
             }
-            g.drawString(options[i], 300, 140 + i * 30 * GamePanel.SCALE);
+            g.drawString(options[i], GamePanel.WIDTH * GamePanel.SCALE * 40 / 100, GamePanel.HEIGHT * GamePanel.SCALE * 45 / 100 + i * 30 * GamePanel.SCALE);
         }
     }
+
 
     private void select() {
         System.out.println(currentChoice);
@@ -82,7 +92,7 @@ public class MenuState extends GameState {
             gsm.setState(GameStateManager.LEVEL1STATE);
         }
         if (currentChoice == 1) {
-            //help
+            //options
 
         }
         if (currentChoice == 2) {

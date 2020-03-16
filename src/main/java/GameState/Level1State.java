@@ -22,13 +22,13 @@ public class Level1State extends GameState {
 
     @Override
     public void init() {
-        System.out.println("Init Level 1");
+        //System.out.println("Init Level 1");
         tileMap = new TileMap(30);
         tileMap.loadTiles("/Tilesets/grasstileset.gif");
         tileMap.loadMap("/Maps/test.map");
         tileMap.setPosition(0, 0);
 
-        bg = new Background("/Backgrounds/menubg.gif", 0.1);
+        bg = new Background("/Backgrounds/level1_1_bg.png", 0.1);
 
         player = new Player(tileMap);
 

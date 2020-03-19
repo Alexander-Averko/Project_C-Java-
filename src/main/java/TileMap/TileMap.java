@@ -181,5 +181,7 @@ public class TileMap {
         }
     }
 
-
+    public void setTween(double tween) {
+        this.tween = tween;
+    }
 }

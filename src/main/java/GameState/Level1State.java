@@ -1,5 +1,8 @@
 package GameState;
 
+import Entity.Enemies.Slugger;
+import Entity.Enemy;
+import Entity.HUD;
 import Entity.Player;
 import Main.GamePanel;
 import TileMap.TileMap;
@@ -7,6 +10,7 @@ import TileMap.Background;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 public class Level1State extends GameState {
 
@@ -15,24 +19,37 @@ public class Level1State extends GameState {
 
     private Player player;
 
+    private HUD hud;
+
+    private ArrayList<Enemy> enemies;
+
     public Level1State(GameStateManager gsm) {
         this.gsm = gsm;
         init();
+
     }
 
     @Override
     public void init() {
-        //System.out.println("Init Level 1");
+
         tileMap = new TileMap(30);
         tileMap.loadTiles("/Tilesets/grasstileset.gif");
-        tileMap.loadMap("/Maps/test.map");
+        tileMap.loadMap("/Maps/level1-1.map");
         tileMap.setPosition(0, 0);
+        tileMap.setTween(0.07);
 
-        bg = new Background("/Backgrounds/level1_1_bg.png", 0.1);
+        bg = new Background("/Backgrounds/menubg.gif", 0.1);
 
         player = new Player(tileMap);
 
         player.setPosition(100, 100);
+
+        enemies = new ArrayList<Enemy>();
+        Slugger s = new Slugger(tileMap);
+        s.setPosition(100, 100);
+        enemies.add(s);
+
+        hud = new HUD(player);
     }
 
     @Override
@@ -42,6 +59,14 @@ public class Level1State extends GameState {
                 GamePanel.WIDTH / 2 - player.getX(),
                 GamePanel.HEIGHT / 2 - player.getY()
         );
+
+        //set background
+        bg.setPosition(tileMap.getX(), tileMap.getY());
+
+        //update all enemies
+        for (int i = 0; i < enemies.size(); i++) {
+            enemies.get(i).update();
+        }
     }
 
     @Override
@@ -52,6 +77,12 @@ public class Level1State extends GameState {
         tileMap.draw(g);
 
         player.draw(g);
+
+        //draw enemies
+        for (int i = 0; i < enemies.size(); i++) {
+            enemies.get(i).draw(g);
+        }
+        hud.draw(g);
 
     }
 

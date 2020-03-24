@@ -33,7 +33,7 @@ public class Slugger extends Enemy {
 
             BufferedImage spritesheet = ImageIO.read(
                     getClass().getResourceAsStream(
-                            "/Sprites/slugger.gif"
+                            "/Sprites/Enemies/slugger.gif"
                     )
             );
 
@@ -112,7 +112,7 @@ public class Slugger extends Enemy {
     }
 
     public void draw(Graphics2D g) {
-        if (notOnScreen()) return;
+        //if (notOnScreen()) return;
         setMapPosition();
         super.draw(g);
 

@@ -1,41 +1,63 @@
 package GameState;
 
-import java.util.ArrayList;
+
+import java.awt.*;
 
 public class GameStateManager {
 
     public static final int MENUSTATE = 0;
     public static final int LEVEL1STATE = 1;
+    public static final int NUMGAMESTATE = 2;
 
-    private ArrayList<GameState> gameStates;
+    private GameState[] gameStates;
     private int currentState;
 
     public GameStateManager() {
-        gameStates = new ArrayList<GameState>();
+        gameStates = new GameState[NUMGAMESTATE];
 
         currentState = MENUSTATE;
-        gameStates.add(new MenuState(this));
-        gameStates.add(new Level1State(this));
+        loadState(currentState);
     }
 
     public void setState(int state) {
+        unloadState(currentState);
         currentState = state;
-        gameStates.get(currentState).init();
+        loadState(currentState);
     }
 
     public void update() {
-        gameStates.get(currentState).update();
+        try {
+            gameStates[currentState].update();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public void draw(java.awt.Graphics2D g) {
-        gameStates.get(currentState).draw(g);
+    public void draw(Graphics2D g) {
+        try {
+            gameStates[currentState].draw(g);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void keyPressed(int k) {
-        gameStates.get(currentState).keyPressed(k);
+        gameStates[currentState].keyPressed(k);
     }
 
     public void keyReleased(int k) {
-        gameStates.get(currentState).keyReleased(k);
+        gameStates[currentState].keyReleased(k);
+    }
+
+    private void loadState(int state) {
+        if (state == MENUSTATE) {
+            gameStates[state] = new MenuState(this);
+        }
+        if (state == LEVEL1STATE) {
+            gameStates[state] = new Level1State(this);
+        }
+    }
+    private void unloadState(int state) {
+        gameStates[state] = null;
     }
 }

@@ -223,7 +223,6 @@ public abstract class MapObject {
     }
 
     public void draw(Graphics2D g) {
-        System.out.println(getClass());
         if (facingRight) {
 
             g.drawImage(

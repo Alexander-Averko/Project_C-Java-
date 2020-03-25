@@ -9,8 +9,8 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
 public class GamePanel extends JPanel implements Runnable, KeyListener {
-    public static final int WIDTH = 720;
-    public static final int HEIGHT = 480;
+    public static final int WIDTH = 426;
+    public static final int HEIGHT = 240;
     public static final int SCALE = 2;
 
     private Thread thread;
@@ -42,7 +42,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     public void init() {
-        image = new BufferedImage(WIDTH * SCALE, HEIGHT * SCALE, BufferedImage.TYPE_INT_RGB);
+        image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
         g = (Graphics2D) image.getGraphics();
         running = true;
         gsm = new GameStateManager();
@@ -74,7 +74,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             if (wait <= 0) wait = 5;
             try {
                 Thread.sleep(wait);
-            } catch (InterruptedException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

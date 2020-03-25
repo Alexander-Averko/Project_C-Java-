@@ -156,18 +156,18 @@ public class Player extends MapObject {
                 if (facingRight) {
                     if (
                             (e.getX() > x) &&
-                                    (e.getX() < x + scratchRange) &&
-                                    (e.getY() > y - height / 2) &&
-                                    (e.getY() < y + height / 2)
+                            (e.getX() < x + scratchRange) &&
+                            (e.getY() > y - height / 2) &&
+                            (e.getY() < y + height / 2)
                     ) {
                         e.hit(scratchDamage);
                     }
                 } else {
                     if (
                             (e.getX() < x) &&
-                                    (e.getX() > x - scratchRange) &&
-                                    (e.getY() > y - height / 2) &&
-                                    (e.getY() < y + height / 2)
+                            (e.getX() > x - scratchRange) &&
+                            (e.getY() > y - height / 2) &&
+                            (e.getY() < y + height / 2)
                     ) {
                         e.hit(scratchDamage);
                     }
@@ -240,11 +240,13 @@ public class Player extends MapObject {
 
         //falling
         if (falling) {
-            if (dy > 0 && gliding) dy += fallSpeed * 0.1;
+            if(dy > 0 && gliding) dy += fallSpeed * 0.1;
             else dy += fallSpeed;
 
-            if (dy < 0) jumping = false;
-            if (dy > 0 && !jumping) dy += maxFallSpeed;
+            if(dy > 0) jumping = false;
+            if(dy < 0 && !jumping) dy += stopJumpSpeed;
+
+            if(dy > maxFallSpeed) dy = maxFallSpeed;
 
         }
     }
@@ -341,7 +343,7 @@ public class Player extends MapObject {
             if (currentAction != IDLE) {
                 currentAction = IDLE;
                 animation.setFrames(sprites.get(IDLE));
-                animation.setDelay(300);
+                animation.setDelay(400);
                 width = 30;
             }
         }
@@ -372,6 +374,6 @@ public class Player extends MapObject {
         }
 
         super.draw(g);
-        System.out.println(getY());
+
     }
 }

@@ -39,7 +39,7 @@ public class Level1State extends GameState {
         tileMap.loadTiles("/Tilesets/grasstileset.gif");
         tileMap.loadMap("/Maps/level1-1.map");
         tileMap.setPosition(0, 0);
-        tileMap.setTween(0.07);
+        tileMap.setTween(1);
 
         bg = new Background("/Backgrounds/menubg.gif", 0.1);
 
@@ -59,7 +59,7 @@ public class Level1State extends GameState {
 
         Slugger s;
         Point[] points = new Point[] {
-                new Point(100, 200),
+                new Point(200, 200),
                 new Point(860, 200),
                 new Point(1525, 200),
                 new Point(1680, 200),

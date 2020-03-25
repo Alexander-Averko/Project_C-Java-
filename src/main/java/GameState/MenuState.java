@@ -33,16 +33,16 @@ public class MenuState extends GameState {
 
         try {
 
-            bg = new Background("/Backgrounds/menu_background2.png", 1);
+            bg = new Background("/Backgrounds/menu_background2.png", 1, GamePanel.WIDTH , GamePanel.HEIGHT);
 
             bg.setVector(-0.1, 0);
 
             titleColor = new Color(128, 0, 0);
-            titleFont = new Font("Century Gothic", Font.BOLD, 28 * GamePanel.SCALE);
+            titleFont = new Font("Century Gothic", Font.BOLD, 28);
 
             //font = Font.createFont(Font.TYPE1_FONT, new FileInputStream("C:\\Users\\Acer\\Documents\\ProjectC\\src\\main\\resources\\Fonts\\of.ttf"))
             //        .deriveFont(30f);
-            font = new Font("Century Gothic", Font.BOLD, 28 * GamePanel.SCALE);
+            font = new Font("Arial", Font.BOLD, 14);
             //System.out.println(new FileInputStream("C:\\Users\\Acer\\Documents\\ProjectC\\src\\main\\resources\\Fonts\\font.ttf").available());
 
 
@@ -80,7 +80,7 @@ public class MenuState extends GameState {
             } else {
                 g.setColor(Color.RED);
             }
-            g.drawString(options[i], GamePanel.WIDTH * GamePanel.SCALE * 40 / 100, GamePanel.HEIGHT * GamePanel.SCALE * 45 / 100 + i * 30 * GamePanel.SCALE);
+            g.drawString(options[i], 170, 110 + i * 15);
         }
     }
 

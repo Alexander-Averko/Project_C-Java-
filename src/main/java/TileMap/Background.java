@@ -16,15 +16,37 @@ public class Background {
     private double dx;
     private double dy;
 
-    private double moveScale = 1;
+    private double moveScale;
+
+    private int width;
+    private  int height;
+
 
     public Background(String s, double ms) {
 
-        moveScale = ms;
+
         try {
             image = ImageIO.read(
                     getClass().getResourceAsStream(s)
             );
+            moveScale = ms;
+            width = image.getWidth();
+            height = image.getHeight();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Background(String s, double ms, int width, int height) {
+
+
+        try {
+            image = ImageIO.read(
+                    getClass().getResourceAsStream(s)
+            );
+            moveScale = ms;
+            this.width = width;
+            this.height = height;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -49,7 +71,7 @@ public class Background {
     }
 
     public void draw(Graphics2D g) {
-        g.drawImage(image, (int) x, (int) y, GamePanel.WIDTH * GamePanel.SCALE, GamePanel.HEIGHT * GamePanel.SCALE, null);
+        g.drawImage(image, (int) x, (int) y, width, height, null);
 
         //System.out.println(GamePanel.WIDTH * GamePanel.SCALE);
 

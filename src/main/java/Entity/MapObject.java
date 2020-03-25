@@ -9,11 +9,13 @@ import java.awt.*;
 
 public abstract class MapObject {
 
+    //tile stuff
     protected TileMap tileMap;
     protected int tileSize;
     protected double xmap;
     protected double ymap;
 
+    //position and vector
     protected double x;
     protected double y;
     protected double dx;
@@ -89,14 +91,14 @@ public abstract class MapObject {
         int topTile = (int) (y - cheight / 2) / tileSize;
         int bottomTile = (int) (y + cheight / 2 - 1) / tileSize;
 
-        int t1 = tileMap.getType(topTile, leftTile);
+        int tl = tileMap.getType(topTile, leftTile);
         int tr = tileMap.getType(topTile, rightTile);
-        int b1 = tileMap.getType(bottomTile, leftTile);
+        int bl = tileMap.getType(bottomTile, leftTile);
         int br = tileMap.getType(bottomTile, rightTile);
 
-        topLeft = t1 == Tile.BLOCKED;
+        topLeft = tl == Tile.BLOCKED;
         topRight = tr == Tile.BLOCKED;
-        bottomLeft = b1 == Tile.BLOCKED;
+        bottomLeft = bl == Tile.BLOCKED;
         bottomRight = br == Tile.BLOCKED;
 
 

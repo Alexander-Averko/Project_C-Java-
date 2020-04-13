@@ -37,7 +37,7 @@ public class Player extends MapObject {
     //animations
     private ArrayList<BufferedImage[]> sprites;
     private final int[] numFrames = {
-            2, 8, 1, 2, 4, 2, 5
+            8, 8, 2, 1, 11, 12, 10
     };
 
     //animation actions
@@ -45,17 +45,17 @@ public class Player extends MapObject {
     private static final int WALKING = 1;
     private static final int JUMPING = 2;
     private static final int FALLING = 3;
-    private static final int GLIDING = 4;
+    private static final int ROLLING = 4;
     private static final int FIREBALL = 5;
     private static final int SCRATCHING = 6;
 
     public Player(TileMap tm) {
         super(tm);
 
-        width = 30;
-        height = 30;
-        cwidth = 20;
-        cheight = 20;
+        width = 89;
+        height = 76;
+        cwidth = 10;
+        cheight = 50;
 
         moveSpeed = 0.3;
         maxSpeed = 1.6;
@@ -81,7 +81,7 @@ public class Player extends MapObject {
         try {
             BufferedImage spritesheet = ImageIO.read(
                     getClass().getResourceAsStream(
-                            "/Sprites/playersprites.gif"
+                            "/Sprites/player_sprite.gif"
                     )
             );
             sprites = new ArrayList<BufferedImage[]>();
@@ -97,9 +97,9 @@ public class Player extends MapObject {
                         );
                     } else {
                         bi[j] = spritesheet.getSubimage(
-                                j * width * 2,
+                                j * width,
                                 i * height,
-                                width * 2,
+                                width,
                                 height
                         );
                     }
@@ -113,7 +113,7 @@ public class Player extends MapObject {
         animation = new Animation();
         currentAction = IDLE;
         animation.setFrames(sprites.get(IDLE));
-        animation.setDelay(400);
+        animation.setDelay(80);
     }
 
     public int getHealth() {
@@ -301,50 +301,50 @@ public class Player extends MapObject {
             if (currentAction != SCRATCHING) {
                 currentAction = SCRATCHING;
                 animation.setFrames(sprites.get(SCRATCHING));
-                animation.setDelay(50);
-                width = 60;
+                animation.setDelay(80);
+                width = 89;
             }
         } else if (firing) {
             if (currentAction != FIREBALL) {
                 currentAction = FIREBALL;
                 animation.setFrames(sprites.get(FIREBALL));
-                animation.setDelay(100);
-                width = 30;
+                animation.setDelay(80);
+                width = 89;
             }
         } else if (dy > 0) {
             if (gliding) {
-                if (currentAction != GLIDING) {
-                    currentAction = GLIDING;
-                    animation.setFrames(sprites.get(GLIDING));
-                    animation.setDelay(100);
-                    width = 30;
+                if (currentAction != ROLLING) {
+                    currentAction = ROLLING;
+                    animation.setFrames(sprites.get(ROLLING));
+                    animation.setDelay(80);
+                    width = 89;
                 }
             } else if (currentAction != FALLING) {
                 currentAction = FALLING;
                 animation.setFrames(sprites.get(FALLING));
-                animation.setDelay(100);
-                width = 30;
+                animation.setDelay(80);
+                width = 89;
             }
         } else if (dy < 0) {
             if (currentAction != JUMPING) {
                 currentAction = JUMPING;
                 animation.setFrames(sprites.get(JUMPING));
                 animation.setDelay(-1);
-                width = 30;
+                width = 89;
             }
         } else if (left || right) {
             if (currentAction != WALKING) {
                 currentAction = WALKING;
                 animation.setFrames(sprites.get(WALKING));
-                animation.setDelay(40);
-                width = 30;
+                animation.setDelay(80);
+                width = 89;
             }
         } else {
             if (currentAction != IDLE) {
                 currentAction = IDLE;
                 animation.setFrames(sprites.get(IDLE));
-                animation.setDelay(400);
-                width = 30;
+                animation.setDelay(80);
+                width = 89;
             }
         }
         animation.update();

@@ -9,9 +9,9 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
 public class GamePanel extends JPanel implements Runnable, KeyListener {
-    public static final int WIDTH = 426;
-    public static final int HEIGHT = 240;
-    public static final int SCALE = 2;
+    public static final int WIDTH = 640;
+    public static final int HEIGHT = 360;
+    public static final int SCALE = 1;
 
     private Thread thread;
     private boolean running;

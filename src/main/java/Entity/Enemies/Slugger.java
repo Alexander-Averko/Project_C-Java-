@@ -25,7 +25,7 @@ public class Slugger extends Enemy {
         cwidth = 20;
         cheight = 20;
 
-        health = maxHealth = 2;
+        health = maxHealth = 10;
         damage = 1;
 
         //load sprites

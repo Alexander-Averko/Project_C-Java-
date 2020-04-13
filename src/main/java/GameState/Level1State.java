@@ -20,7 +20,7 @@ public class Level1State extends GameState {
 
     private Player player;
 
-    private HUD hud;
+    //private HUD hud;
 
     private ArrayList<Enemy> enemies;
     private ArrayList<Explosion> explosions;
@@ -35,13 +35,13 @@ public class Level1State extends GameState {
     @Override
     public void init() {
 
-        tileMap = new TileMap(30);
-        tileMap.loadTiles("/Tilesets/grasstileset.gif");
-        tileMap.loadMap("/Maps/level1-1.map");
+        tileMap = new TileMap(32);
+        tileMap.loadTiles("/Tilesets/tiles.gif");
+        tileMap.loadMap("/Maps/map.map");
         tileMap.setPosition(0, 0);
         tileMap.setTween(1);
 
-        bg = new Background("/Backgrounds/menubg.gif", 0.1);
+        bg = new Background("/Backgrounds/bg.png", 0.1);
 
         player = new Player(tileMap);
         player.setPosition(100, 100);
@@ -50,7 +50,7 @@ public class Level1State extends GameState {
 
         explosions = new ArrayList<Explosion>();
 
-        hud = new HUD(player);
+        //hud = new HUD(player);
     }
 
     private void populateEnemies() {
@@ -60,10 +60,7 @@ public class Level1State extends GameState {
         Slugger s;
         Point[] points = new Point[] {
                 new Point(200, 200),
-                new Point(860, 200),
-                new Point(1525, 200),
-                new Point(1680, 200),
-                new Point(1800, 200)
+
         };
 
         for (int i = 0; i < points.length; i++) {
@@ -134,7 +131,7 @@ public class Level1State extends GameState {
         }
 
         //draw HUD
-        hud.draw(g);
+        //hud.draw(g);
 
     }
 
@@ -147,7 +144,7 @@ public class Level1State extends GameState {
         if (k == KeyEvent.VK_SPACE) player.setJumping(true);
         if (k == KeyEvent.VK_E) player.setGliding(true);
         if (k == KeyEvent.VK_R) player.setScratching();
-        if (k == KeyEvent.VK_F) player.setFiring();
+        //if (k == KeyEvent.VK_F) player.setFiring();
 
     }
 

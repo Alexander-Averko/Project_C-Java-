@@ -44,8 +44,8 @@ public class TileMap {
 
     public TileMap(int tileSize) {
         this.tileSize = tileSize;
-        numRowToDraw = GamePanel.HEIGHT / tileSize + 2;
-        numColToDraw = GamePanel.WIDTH / tileSize + 2;
+        numRowToDraw = GamePanel.HEIGHT / tileSize;
+        numColToDraw = GamePanel.WIDTH / tileSize;
         tween = 0.7;
     }
 
@@ -79,6 +79,7 @@ public class TileMap {
             }
 
         } catch (Exception e) {
+            System.out.println("NULL");
             e.printStackTrace();
         }
     }

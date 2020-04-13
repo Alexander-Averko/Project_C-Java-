@@ -8,11 +8,11 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Slugger extends Enemy {
+public class BigEnemy extends Enemy {
 
     private BufferedImage[] sprites;
 
-    public Slugger(TileMap tm) {
+    public BigEnemy(TileMap tm) {
         super(tm);
 
         moveSpeed = 0.3;
@@ -20,10 +20,10 @@ public class Slugger extends Enemy {
         fallSpeed = 0.2;
         maxFallSpeed = 10;
 
-        width = 30;
-        height = 30;
-        cwidth = 20;
-        cheight = 20;
+        width = 128;
+        height = 128;
+        cwidth = 50;
+        cheight = 50;
 
         health = maxHealth = 10;
         damage = 1;
@@ -33,11 +33,11 @@ public class Slugger extends Enemy {
 
             BufferedImage spritesheet = ImageIO.read(
                     getClass().getResourceAsStream(
-                            "/Sprites/Enemies/slugger.gif"
+                            "/Sprites/Enemies/testenemy.png"
                     )
             );
 
-            sprites = new BufferedImage[3];
+            sprites = new BufferedImage[16];
             for (int i = 0; i < sprites.length; i++) {
                 sprites[i] = spritesheet.getSubimage(
                         i * width,
@@ -53,7 +53,7 @@ public class Slugger extends Enemy {
 
         animation = new Animation();
         animation.setFrames(sprites);
-        animation.setDelay(30);
+        animation.setDelay(80);
 
         right = true;
         facingRight = true;

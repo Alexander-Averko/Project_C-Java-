@@ -31,8 +31,12 @@ public class Player extends MapObject {
     private int scratchDamage;
     private int scratchRange;
 
-    //gliding
-    private boolean gliding;
+    //rolling
+    private boolean rolling;
+
+    //rolling
+    private double rollingSpeed;
+    private double maxRollingSpeed;
 
     //animations
     private ArrayList<BufferedImage[]> sprites;
@@ -58,6 +62,8 @@ public class Player extends MapObject {
         cheight = 50;
 
         moveSpeed = 0.3;
+        rollingSpeed = 0.6;
+        maxRollingSpeed = 3;
         maxSpeed = 1.6;
         stopSpeed = 0.4;
         fallSpeed = 0.15;
@@ -140,8 +146,8 @@ public class Player extends MapObject {
         scratching = true;
     }
 
-    public void setGliding(boolean b) {
-        gliding = b;
+    public void setRolling(boolean b) {
+        rolling = b;
     }
 
     public void checkAttack(ArrayList<Enemy> enemies) {
@@ -213,7 +219,20 @@ public class Player extends MapObject {
             if (dx > maxSpeed) {
                 dx = maxSpeed;
             }
-        } else {
+        }
+        //rolling
+        else if (left && rolling) {
+            dx -= rollingSpeed;
+            if (dx < -maxRollingSpeed) {
+                dx = -maxRollingSpeed;
+            }
+        } else if (right && rolling) {
+            dx += rollingSpeed;
+            if (dx > maxRollingSpeed) {
+                dx = maxRollingSpeed;
+            }
+        }
+        else {
             if (dx > 0) {
                 dx -= stopSpeed;
                 if (dx < 0) {
@@ -226,6 +245,8 @@ public class Player extends MapObject {
                 }
             }
         }
+
+
 
         //cannot move while attacking, except in air
         if ((currentAction == SCRATCHING || currentAction == FIREBALL) && !(jumping || falling)) {
@@ -240,8 +261,9 @@ public class Player extends MapObject {
 
         //falling
         if (falling) {
-            if(dy > 0 && gliding) dy += fallSpeed * 0.1;
-            else dy += fallSpeed;
+            //if(dy > 0 && rolling) dy += fallSpeed * 0.1;
+            //else
+                dy += fallSpeed;
 
             if(dy > 0) jumping = false;
             if(dy < 0 && !jumping) dy += stopJumpSpeed;
@@ -312,14 +334,8 @@ public class Player extends MapObject {
                 width = 89;
             }
         } else if (dy > 0) {
-            if (gliding) {
-                if (currentAction != ROLLING) {
-                    currentAction = ROLLING;
-                    animation.setFrames(sprites.get(ROLLING));
-                    animation.setDelay(80);
-                    width = 89;
-                }
-            } else if (currentAction != FALLING) {
+
+             if (currentAction != FALLING) {
                 currentAction = FALLING;
                 animation.setFrames(sprites.get(FALLING));
                 animation.setDelay(80);

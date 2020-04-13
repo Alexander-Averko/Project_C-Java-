@@ -1,9 +1,8 @@
 package GameState;
 
-import Entity.Enemies.Slugger;
+import Entity.Enemies.BigEnemy;
 import Entity.Enemy;
 import Entity.Explosion;
-import Entity.HUD;
 import Entity.Player;
 import Main.GamePanel;
 import TileMap.TileMap;
@@ -57,14 +56,14 @@ public class Level1State extends GameState {
 
         enemies = new ArrayList<Enemy>();
 
-        Slugger s;
+        BigEnemy s;
         Point[] points = new Point[] {
                 new Point(200, 200),
 
         };
 
         for (int i = 0; i < points.length; i++) {
-            s = new Slugger(tileMap);
+            s = new BigEnemy(tileMap);
             s.setPosition(points[i].x, points[i].y);
             enemies.add(s);
         }
@@ -142,7 +141,7 @@ public class Level1State extends GameState {
         if (k == KeyEvent.VK_W) player.setUp(true);
         if (k == KeyEvent.VK_S) player.setDown(true);
         if (k == KeyEvent.VK_SPACE) player.setJumping(true);
-        if (k == KeyEvent.VK_E) player.setGliding(true);
+        if (k == KeyEvent.VK_E) player.setRolling(true);
         if (k == KeyEvent.VK_R) player.setScratching();
         //if (k == KeyEvent.VK_F) player.setFiring();
 
@@ -155,6 +154,6 @@ public class Level1State extends GameState {
         if (k == KeyEvent.VK_W) player.setUp(false);
         if (k == KeyEvent.VK_S) player.setDown(false);
         if (k == KeyEvent.VK_SPACE) player.setJumping(false);
-        if (k == KeyEvent.VK_E) player.setGliding(false);
+        if (k == KeyEvent.VK_E) player.setRolling(false);
     }
 }

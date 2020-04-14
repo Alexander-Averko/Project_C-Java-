@@ -154,6 +154,7 @@ public abstract class MapObject {
             calculateCorners(x, ydest + 1);
             if (!bottomLeft && !bottomRight) {
                 falling = true;
+
             }
         }
     }
@@ -243,6 +244,8 @@ public abstract class MapObject {
                     null
             );
         }
+
+
     }
 
 }

@@ -141,7 +141,7 @@ public class Level1State extends GameState {
         if (k == KeyEvent.VK_W) player.setUp(true);
         if (k == KeyEvent.VK_S) player.setDown(true);
         if (k == KeyEvent.VK_SPACE) player.setJumping(true);
-        if (k == KeyEvent.VK_E) player.setRolling(true);
+        if (k == KeyEvent.VK_E) player.setRolling();
         if (k == KeyEvent.VK_R) player.setScratching();
         //if (k == KeyEvent.VK_F) player.setFiring();
 
@@ -154,6 +154,6 @@ public class Level1State extends GameState {
         if (k == KeyEvent.VK_W) player.setUp(false);
         if (k == KeyEvent.VK_S) player.setDown(false);
         if (k == KeyEvent.VK_SPACE) player.setJumping(false);
-        if (k == KeyEvent.VK_E) player.setRolling(false);
+        //if (k == KeyEvent.VK_E) player.setRolling(false);
     }
 }

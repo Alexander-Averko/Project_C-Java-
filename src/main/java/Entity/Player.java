@@ -33,15 +33,13 @@ public class Player extends MapObject {
 
     //rolling
     private boolean rolling;
-
-    //rolling
     private double rollingSpeed;
     private double maxRollingSpeed;
 
     //animations
     private ArrayList<BufferedImage[]> sprites;
     private final int[] numFrames = {
-            8, 8, 2, 1, 11, 12, 10
+            8, 8, 2, 1, 6, 12, 10
     };
 
     //animation actions
@@ -62,7 +60,7 @@ public class Player extends MapObject {
         cheight = 50;
 
         moveSpeed = 0.3;
-        rollingSpeed = 0.6;
+        rollingSpeed = 1;
         maxRollingSpeed = 3;
         maxSpeed = 1.6;
         stopSpeed = 0.4;
@@ -80,14 +78,14 @@ public class Player extends MapObject {
         fireBallDamage = 5;
         fireBalls = new ArrayList<FireBall>();
 
-        scratchDamage = 8;
-        scratchRange = 40;
+        scratchDamage = 10;
+        scratchRange = 50;
 
         //load sprites
         try {
             BufferedImage spritesheet = ImageIO.read(
                     getClass().getResourceAsStream(
-                            "/Sprites/player_sprite.gif"
+                            "/Sprites/player_sprite3.gif"
                     )
             );
             sprites = new ArrayList<BufferedImage[]>();
@@ -143,12 +141,14 @@ public class Player extends MapObject {
     }
 
     public void setScratching() {
-        scratching = true;
+        if (!rolling) scratching = true;
     }
 
-    public void setRolling(boolean b) {
-        rolling = b;
+    public void setRolling() {
+        if(!scratching && !falling && !jumping) rolling = true;
     }
+
+
 
     public void checkAttack(ArrayList<Enemy> enemies) {
 
@@ -162,18 +162,18 @@ public class Player extends MapObject {
                 if (facingRight) {
                     if (
                             (e.getX() > x) &&
-                            (e.getX() < x + scratchRange) &&
-                            (e.getY() > y - height / 2) &&
-                            (e.getY() < y + height / 2)
+                                    (e.getX() < x + scratchRange) &&
+                                    (e.getY() > y - height / 2) &&
+                                    (e.getY() < y + height / 2)
                     ) {
                         e.hit(scratchDamage);
                     }
                 } else {
                     if (
                             (e.getX() < x) &&
-                            (e.getX() > x - scratchRange) &&
-                            (e.getY() > y - height / 2) &&
-                            (e.getY() < y + height / 2)
+                                    (e.getX() > x - scratchRange) &&
+                                    (e.getY() > y - height / 2) &&
+                                    (e.getY() < y + height / 2)
                     ) {
                         e.hit(scratchDamage);
                     }
@@ -209,30 +209,32 @@ public class Player extends MapObject {
     private void getNextPosition() {
 
         //movement
-        if (left) {
+        if (left && !rolling) {
             dx -= moveSpeed;
             if (dx < -maxSpeed) {
                 dx = -maxSpeed;
             }
-        } else if (right) {
+        } else if (right && !rolling) {
             dx += moveSpeed;
             if (dx > maxSpeed) {
                 dx = maxSpeed;
             }
         }
         //rolling
-        else if (left && rolling) {
-            dx -= rollingSpeed;
-            if (dx < -maxRollingSpeed) {
-                dx = -maxRollingSpeed;
+        else if (rolling && !jumping && !falling) {
+
+            if (facingRight) {
+                dx += rollingSpeed;
+                if (dx > maxRollingSpeed) {
+                    dx = maxRollingSpeed;
+                }
+            } else {
+                dx -= rollingSpeed;
+                if (dx < -maxRollingSpeed) {
+                    dx = -maxRollingSpeed;
+                }
             }
-        } else if (right && rolling) {
-            dx += rollingSpeed;
-            if (dx > maxRollingSpeed) {
-                dx = maxRollingSpeed;
-            }
-        }
-        else {
+        }else {
             if (dx > 0) {
                 dx -= stopSpeed;
                 if (dx < 0) {
@@ -247,11 +249,14 @@ public class Player extends MapObject {
         }
 
 
-
         //cannot move while attacking, except in air
         if ((currentAction == SCRATCHING || currentAction == FIREBALL) && !(jumping || falling)) {
             dx = 0;
         }
+        if (currentAction == ROLLING) {
+            jumping = false;
+        }
+
 
         //jumping
         if (jumping && !falling) {
@@ -261,14 +266,15 @@ public class Player extends MapObject {
 
         //falling
         if (falling) {
+            rolling = false;
             //if(dy > 0 && rolling) dy += fallSpeed * 0.1;
             //else
-                dy += fallSpeed;
+            dy += fallSpeed;
 
-            if(dy > 0) jumping = false;
-            if(dy < 0 && !jumping) dy += stopJumpSpeed;
+            if (dy > 0) jumping = false;
+            if (dy < 0 && !jumping) dy += stopJumpSpeed;
 
-            if(dy > maxFallSpeed) dy = maxFallSpeed;
+            if (dy > maxFallSpeed) dy = maxFallSpeed;
 
         }
     }
@@ -287,6 +293,11 @@ public class Player extends MapObject {
         }
         if (currentAction == FIREBALL) {
             if (animation.hasPlayedOnce()) firing = false;
+        }
+
+        //check rolling has stopped
+        if (currentAction == ROLLING) {
+            if (animation.hasPlayedOnce()) rolling = false;
         }
 
         //fireball attack
@@ -326,7 +337,8 @@ public class Player extends MapObject {
                 animation.setDelay(80);
                 width = 89;
             }
-        } else if (firing) {
+        }
+         else if (firing) {
             if (currentAction != FIREBALL) {
                 currentAction = FIREBALL;
                 animation.setFrames(sprites.get(FIREBALL));
@@ -335,7 +347,7 @@ public class Player extends MapObject {
             }
         } else if (dy > 0) {
 
-             if (currentAction != FALLING) {
+            if (currentAction != FALLING) {
                 currentAction = FALLING;
                 animation.setFrames(sprites.get(FALLING));
                 animation.setDelay(80);
@@ -348,13 +360,27 @@ public class Player extends MapObject {
                 animation.setDelay(-1);
                 width = 89;
             }
-        } else if (left || right) {
+        }
+         //rolling
+        else if (rolling) {
+            if (currentAction != ROLLING) {
+                currentAction = ROLLING;
+                animation.setFrames(sprites.get(ROLLING));
+                animation.setDelay(80);
+                width = 89;
+            }
+
+        }
+        //movement
+         else if (left || right) {
+
             if (currentAction != WALKING) {
                 currentAction = WALKING;
                 animation.setFrames(sprites.get(WALKING));
                 animation.setDelay(80);
                 width = 89;
             }
+
         } else {
             if (currentAction != IDLE) {
                 currentAction = IDLE;
@@ -366,7 +392,7 @@ public class Player extends MapObject {
         animation.update();
 
         //set direction
-        if (currentAction != SCRATCHING && currentAction != FIREBALL) {
+        if (currentAction != SCRATCHING && currentAction != FIREBALL && currentAction != ROLLING) {
             if (right) facingRight = true;
             if (left) facingRight = false;
         }

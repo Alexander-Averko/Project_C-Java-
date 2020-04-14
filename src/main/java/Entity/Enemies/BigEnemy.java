@@ -23,7 +23,7 @@ public class BigEnemy extends Enemy {
         width = 128;
         height = 128;
         cwidth = 50;
-        cheight = 50;
+        cheight = 55;
 
         health = maxHealth = 10;
         damage = 1;

@@ -3,6 +3,7 @@ package GameState;
 import Entity.Enemies.BigEnemy;
 import Entity.Enemy;
 import Entity.Explosion;
+import Entity.HUD;
 import Entity.Player;
 import Main.GamePanel;
 import TileMap.TileMap;
@@ -19,7 +20,7 @@ public class Level1State extends GameState {
 
     private Player player;
 
-    //private HUD hud;
+
 
     private ArrayList<Enemy> enemies;
     private ArrayList<Explosion> explosions;
@@ -42,6 +43,8 @@ public class Level1State extends GameState {
 
         bg = new Background("/Backgrounds/bg.png", 0.1);
 
+
+
         player = new Player(tileMap);
         player.setPosition(100, 100);
 
@@ -49,7 +52,7 @@ public class Level1State extends GameState {
 
         explosions = new ArrayList<Explosion>();
 
-        //hud = new HUD(player);
+
     }
 
     private void populateEnemies() {
@@ -104,6 +107,8 @@ public class Level1State extends GameState {
                 explosions.remove(i);
             }
         }
+
+
     }
 
     @Override
@@ -129,8 +134,7 @@ public class Level1State extends GameState {
             explosions.get(i).draw(g);
         }
 
-        //draw HUD
-        //hud.draw(g);
+
 
     }
 

@@ -51,6 +51,9 @@ public class Player extends MapObject {
     private static final int FIREBALL = 5;
     private static final int SCRATCHING = 6;
 
+    //HUD
+    private HUD hud;
+
     public Player(TileMap tm) {
         super(tm);
 
@@ -60,7 +63,7 @@ public class Player extends MapObject {
         cheight = 50;
 
         moveSpeed = 0.3;
-        rollingSpeed = 1;
+        rollingSpeed = 3;
         maxRollingSpeed = 3;
         maxSpeed = 1.6;
         stopSpeed = 0.4;
@@ -81,6 +84,8 @@ public class Player extends MapObject {
         scratchDamage = 10;
         scratchRange = 50;
 
+        hud = new HUD(this);
+
         //load sprites
         try {
             BufferedImage spritesheet = ImageIO.read(
@@ -89,7 +94,7 @@ public class Player extends MapObject {
                     )
             );
             sprites = new ArrayList<BufferedImage[]>();
-            for (int i = 0; i < 7; i++) {
+            for (int i = 0; i < numFrames.length; i++) {
                 BufferedImage[] bi = new BufferedImage[numFrames[i]];
                 for (int j = 0; j < numFrames[i]; j++) {
                     if (i != SCRATCHING) {
@@ -202,6 +207,8 @@ public class Player extends MapObject {
         health -= damage;
         if (health < 0) health = 0;
         if (health == 0) dead = true;
+        hud.setBreaking(damage);
+
         flinching = true;
         flinchTimer = System.nanoTime();
     }
@@ -396,10 +403,16 @@ public class Player extends MapObject {
             if (right) facingRight = true;
             if (left) facingRight = false;
         }
+
+        //update HUD
+        hud.update();
     }
 
     public void draw(Graphics2D g) {
         setMapPosition();
+
+        //draw HUD
+        hud.draw(g);
 
         //draw fireballs
         for (int i = 0; i < fireBalls.size(); i++) {
@@ -414,6 +427,8 @@ public class Player extends MapObject {
                 return;
             }
         }
+
+
 
         super.draw(g);
 

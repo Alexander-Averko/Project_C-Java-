@@ -28,7 +28,7 @@ public class HUD {
 
     private Animation animation;
 
-    private int currentAction;
+    private int currentHeart;
 
     public HUD(Player p) {
         player = p;
@@ -67,13 +67,10 @@ public class HUD {
         for (int i = 0; i < player.getHealth(); i++) {
             hearts.add(CREATE);
         }
-        currentAction = hearts.size() - 1;
 
+        currentHeart = 0;
         animation.setFrames(healthSprites.get(CREATE));
         animation.setDelay(20);
-
-
-
 
 
     }
@@ -81,28 +78,56 @@ public class HUD {
     public void setCreating() {
         hearts.add(CREATE);
     }
+
     public void setBreaking(int h) {
 
-        for (int i = hearts.size() - 1; i > hearts.size() - h - 1; i--) {
+        for (int i = hearts.size() - 1; i >= player.getHealth(); i--) {
 
             hearts.set(i, BREAK);
         }
     }
 
     public void update() {
-        animation.update();
+        if (hearts.get(currentHeart) != IDLE) animation.update();
+        if (hearts.get(currentHeart) == BREAK) {
+            if (animation.hasPlayedOnce()) {
+                hearts.remove(currentHeart);
 
-        if (animation.hasPlayedOnce()) {
-            if (hearts.get(currentAction) == CREATE) {
-                hearts.set(currentAction, IDLE);
 
+                currentHeart = (currentHeart >= hearts.size() - 1) ? 0 : currentHeart + 1;
+
+                animation.setFrames(healthSprites.get(hearts.get(currentHeart)));
+                animation.setDelay(20);
             }
-            if (hearts.get(currentAction) == BREAK) {
+        } else if (hearts.get(currentHeart) == CREATE) {
+            if (animation.hasPlayedOnce()) {
+                hearts.set(currentHeart, IDLE);
 
-                hearts.remove(currentAction);
+
+                currentHeart = (currentHeart >= hearts.size() - 1) ? 0 : currentHeart + 1;
+
+                animation.setFrames(healthSprites.get(hearts.get(currentHeart)));
+                animation.setDelay(20);
             }
-            currentAction = (currentAction == 0 ) ? hearts.size() - 1: currentAction - 1;
-            animation.setFrames(healthSprites.get(hearts.get(currentAction)));
+        } else {
+
+            if (hearts.size() > player.getHealth()) {
+                for (int i = hearts.size() - 1; i >= player.getHealth(); i--) {
+
+                    hearts.set(i, BREAK);
+                }
+                currentHeart = hearts.size() - 1;
+            } else if (hearts.size() < player.getHealth()) {
+                for (int i = 0; i < player.getHealth() - hearts.size(); i++) {
+
+                    hearts.add(CREATE);
+                }
+                ;
+
+            } else
+
+                currentHeart = (currentHeart >= hearts.size() - 1) ? 0 : currentHeart + 1;
+            animation.setFrames(healthSprites.get(hearts.get(currentHeart)));
             animation.setDelay(20);
 
         }
@@ -113,11 +138,11 @@ public class HUD {
     public void draw(Graphics2D g) {
 
         for (int i = 0; i < hearts.size(); i++) {
-            if (i == currentAction) g.drawImage(animation.getImage(), 10 + currentAction * 20, 10, null);
-            else if (hearts.get(i) == IDLE)g.drawImage(healthSprites.get(IDLE)[0], 10 + i * 20, 10, null);
+
+            if ((hearts.get(i) == IDLE) || ((hearts.get(i) == BREAK) && (i != currentHeart)))
+                g.drawImage(healthSprites.get(IDLE)[0], 10 + i * 20, 10, null);
+            else g.drawImage(animation.getImage(), 10 + currentHeart * 20, 10, null);
         }
-
-
 
 
     }

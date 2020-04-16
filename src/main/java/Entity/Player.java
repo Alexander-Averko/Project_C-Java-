@@ -51,8 +51,6 @@ public class Player extends MapObject {
     private static final int FIREBALL = 5;
     private static final int SCRATCHING = 6;
 
-    //HUD
-    private HUD hud;
 
     public Player(TileMap tm) {
         super(tm);
@@ -84,7 +82,6 @@ public class Player extends MapObject {
         scratchDamage = 10;
         scratchRange = 50;
 
-        hud = new HUD(this);
 
         //load sprites
         try {
@@ -150,9 +147,8 @@ public class Player extends MapObject {
     }
 
     public void setRolling() {
-        if(!scratching && !falling && !jumping) rolling = true;
+        if (!scratching && !falling && !jumping) rolling = true;
     }
-
 
 
     public void checkAttack(ArrayList<Enemy> enemies) {
@@ -207,7 +203,7 @@ public class Player extends MapObject {
         health -= damage;
         if (health < 0) health = 0;
         if (health == 0) dead = true;
-        hud.setBreaking(damage);
+
 
         flinching = true;
         flinchTimer = System.nanoTime();
@@ -241,7 +237,7 @@ public class Player extends MapObject {
                     dx = -maxRollingSpeed;
                 }
             }
-        }else {
+        } else {
             if (dx > 0) {
                 dx -= stopSpeed;
                 if (dx < 0) {
@@ -344,8 +340,7 @@ public class Player extends MapObject {
                 animation.setDelay(80);
                 width = 89;
             }
-        }
-         else if (firing) {
+        } else if (firing) {
             if (currentAction != FIREBALL) {
                 currentAction = FIREBALL;
                 animation.setFrames(sprites.get(FIREBALL));
@@ -368,7 +363,7 @@ public class Player extends MapObject {
                 width = 89;
             }
         }
-         //rolling
+        //rolling
         else if (rolling) {
             if (currentAction != ROLLING) {
                 currentAction = ROLLING;
@@ -379,7 +374,7 @@ public class Player extends MapObject {
 
         }
         //movement
-         else if (left || right) {
+        else if (left || right) {
 
             if (currentAction != WALKING) {
                 currentAction = WALKING;
@@ -404,15 +399,12 @@ public class Player extends MapObject {
             if (left) facingRight = false;
         }
 
-        //update HUD
-        hud.update();
+
     }
 
     public void draw(Graphics2D g) {
         setMapPosition();
 
-        //draw HUD
-        hud.draw(g);
 
         //draw fireballs
         for (int i = 0; i < fireBalls.size(); i++) {
@@ -427,7 +419,6 @@ public class Player extends MapObject {
                 return;
             }
         }
-
 
 
         super.draw(g);

@@ -21,9 +21,11 @@ public class Level1State extends GameState {
     private Player player;
 
 
-
     private ArrayList<Enemy> enemies;
     private ArrayList<Explosion> explosions;
+
+    //HUD
+    private HUD hud;
 
 
     public Level1State(GameStateManager gsm) {
@@ -44,11 +46,13 @@ public class Level1State extends GameState {
         bg = new Background("/Backgrounds/bg.png", 0.1);
 
 
-
         player = new Player(tileMap);
         player.setPosition(100, 100);
 
+        hud = new HUD(player);
+
         populateEnemies();
+
 
         explosions = new ArrayList<Explosion>();
 
@@ -60,7 +64,7 @@ public class Level1State extends GameState {
         enemies = new ArrayList<Enemy>();
 
         BigEnemy s;
-        Point[] points = new Point[] {
+        Point[] points = new Point[]{
                 new Point(200, 200),
 
         };
@@ -108,6 +112,8 @@ public class Level1State extends GameState {
             }
         }
 
+        //update HUD
+        hud.update();
 
     }
 
@@ -130,10 +136,12 @@ public class Level1State extends GameState {
 
         //draw explosions
         for (int i = 0; i < explosions.size(); i++) {
-            explosions.get(i).setMapPosition((int)tileMap.getX(), (int)tileMap. getY());
+            explosions.get(i).setMapPosition((int) tileMap.getX(), (int) tileMap.getY());
             explosions.get(i).draw(g);
         }
 
+        //draw HUD
+        hud.draw(g);
 
 
     }
@@ -158,6 +166,6 @@ public class Level1State extends GameState {
         if (k == KeyEvent.VK_W) player.setUp(false);
         if (k == KeyEvent.VK_S) player.setDown(false);
         if (k == KeyEvent.VK_SPACE) player.setJumping(false);
-        //if (k == KeyEvent.VK_E) player.setRolling(false);
+
     }
 }

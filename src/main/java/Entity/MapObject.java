@@ -244,7 +244,11 @@ public abstract class MapObject {
                     null
             );
         }
-
+        // draw collision box
+        /*Rectangle r = getRectangle();
+        r.x += xmap;
+        r.y += ymap;
+        g.draw(r);*/
 
     }
 

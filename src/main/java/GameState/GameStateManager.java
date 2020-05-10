@@ -29,7 +29,7 @@ public class GameStateManager {
         try {
             gameStates[currentState].update();
         } catch (Exception e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         }
     }
 
@@ -37,7 +37,7 @@ public class GameStateManager {
         try {
             gameStates[currentState].draw(g);
         } catch (Exception e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         }
     }
 

@@ -6,11 +6,13 @@ import Entity.Explosion;
 import Entity.HUD;
 import Entity.Player;
 import Main.GamePanel;
-import TileMap.TileMap;
+import Save.Save;
 import TileMap.Background;
+import TileMap.TileMap;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.*;
 import java.util.ArrayList;
 
 public class Level1State extends GameState {
@@ -26,6 +28,10 @@ public class Level1State extends GameState {
 
     //HUD
     private HUD hud;
+
+    //Saves
+    private String path = "src/main/resources/Saves/save.txt";
+
 
 
     public Level1State(GameStateManager gsm) {
@@ -47,6 +53,12 @@ public class Level1State extends GameState {
 
 
         player = new Player(tileMap);
+        try {
+            Save save = load();
+            player.setHealth(save.getPlayerHealth());
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         player.setPosition(100, 100);
 
         hud = new HUD(player);
@@ -79,6 +91,7 @@ public class Level1State extends GameState {
 
     @Override
     public void update() {
+
 
         //player update
         player.update();
@@ -120,6 +133,7 @@ public class Level1State extends GameState {
     @Override
     public void draw(Graphics2D g) {
 
+
         //draw bg
         bg.draw(g);
 
@@ -144,6 +158,10 @@ public class Level1State extends GameState {
         hud.draw(g);
 
 
+
+        //mirrors
+        //g.copyArea(200, 200, 50, 50, -100,0);
+
     }
 
     @Override
@@ -155,7 +173,7 @@ public class Level1State extends GameState {
         if (k == KeyEvent.VK_SPACE) player.setJumping(true);
         if (k == KeyEvent.VK_E) player.setRolling();
         if (k == KeyEvent.VK_R) player.setScratching();
-        //if (k == KeyEvent.VK_F) player.setFiring();
+        if (k == KeyEvent.VK_F5) save();
 
     }
 
@@ -168,4 +186,30 @@ public class Level1State extends GameState {
         if (k == KeyEvent.VK_SPACE) player.setJumping(false);
 
     }
+
+    private void reset() {
+        player.reset();
+        player.setPosition(100, 100);
+        populateEnemies();
+    }
+
+    private void save() {
+        Save save = new Save(player.getHealth());
+        try {
+            FileOutputStream outputStream = new FileOutputStream(path);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+            objectOutputStream.writeObject(save);
+            objectOutputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Save load() throws IOException, ClassNotFoundException {
+        FileInputStream fileInputStream = new FileInputStream(path);
+        ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+        return (Save) objectInputStream.readObject();
+    }
+
+
 }

@@ -10,6 +10,9 @@ import java.util.ArrayList;
 
 public class Player extends MapObject {
 
+
+
+
     //player stuff
     private int health;
     private int maxHealth;
@@ -90,6 +93,7 @@ public class Player extends MapObject {
                             "/Sprites/player_sprite3.gif"
                     )
             );
+
             sprites = new ArrayList<BufferedImage[]>();
             for (int i = 0; i < numFrames.length; i++) {
                 BufferedImage[] bi = new BufferedImage[numFrames[i]];
@@ -120,6 +124,10 @@ public class Player extends MapObject {
         currentAction = IDLE;
         animation.setFrames(sprites.get(IDLE));
         animation.setDelay(80);
+
+
+
+
     }
 
     public int getHealth() {
@@ -136,6 +144,10 @@ public class Player extends MapObject {
 
     public int getMaxFire() {
         return maxFire;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
     }
 
     public void setFiring() {
@@ -400,6 +412,8 @@ public class Player extends MapObject {
         }
 
 
+
+
     }
 
     public void draw(Graphics2D g) {
@@ -423,5 +437,19 @@ public class Player extends MapObject {
 
         super.draw(g);
 
+
     }
+
+    public void reset() {
+        health = maxHealth;
+        facingRight = true;
+        currentAction = -1;
+    }
+    public void stop() {
+        left = right = up = down = flinching =
+                rolling = jumping = scratching = false;
+    }
+
+
+
 }

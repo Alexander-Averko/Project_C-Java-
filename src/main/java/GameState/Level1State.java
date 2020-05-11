@@ -225,6 +225,7 @@ public class Level1State extends GameState {
             FileOutputStream outputStream = new FileOutputStream(path);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
             objectOutputStream.writeObject(save);
+            outputStream.close();
             objectOutputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -236,7 +237,10 @@ public class Level1State extends GameState {
     private Save load() throws IOException, ClassNotFoundException {
         FileInputStream fileInputStream = new FileInputStream(path);
         ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-        return (Save) objectInputStream.readObject();
+        Save save = (Save) objectInputStream.readObject();
+        fileInputStream.close();
+        objectInputStream.close();
+        return save;
     }
 
 

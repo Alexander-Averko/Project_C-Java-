@@ -33,7 +33,7 @@ public class BigEnemy extends Enemy {
 
             BufferedImage spritesheet = ImageIO.read(
                     getClass().getResourceAsStream(
-                            "/Sprites/Enemies/testenemy.png"
+                            "/Sprites/Enemies/bigenemy.png"
                     )
             );
 

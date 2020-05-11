@@ -24,6 +24,10 @@ public class Level1State extends GameState {
 
 
     private ArrayList<Enemy> enemies;
+
+    //enemies spawn points
+    private ArrayList<Point> points;
+
     private ArrayList<Explosion> explosions;
 
     //HUD
@@ -56,14 +60,17 @@ public class Level1State extends GameState {
         try {
             Save save = load();
             player.setHealth(save.getPlayerHealth());
+            populateEnemies(save.getPoints());
         } catch (IOException | ClassNotFoundException e) {
+            populateEnemies();
             e.printStackTrace();
+
         }
         player.setPosition(100, 100);
 
         hud = new HUD(player);
 
-        populateEnemies();
+
 
 
         explosions = new ArrayList<Explosion>();
@@ -76,17 +83,31 @@ public class Level1State extends GameState {
         enemies = new ArrayList<Enemy>();
 
         BigEnemy s;
-        Point[] points = new Point[]{
-                new Point(200, 200),
+        points = new ArrayList<Point>();
+        points.add(new Point(200, 100));
+        points.add(new Point(500, 100));
 
-        };
-
-        for (int i = 0; i < points.length; i++) {
+        for (int i = 0; i < points.size(); i++) {
             s = new BigEnemy(tileMap);
-            s.setPosition(points[i].x, points[i].y);
+            s.setPosition(points.get(i).x, points.get(i).y);
             enemies.add(s);
+
         }
 
+    }
+
+    private void populateEnemies(ArrayList<Point> points) {
+        enemies = new ArrayList<Enemy>();
+
+        BigEnemy s;
+        this.points = points;
+
+        for (int i = 0; i < points.size(); i++) {
+            s = new BigEnemy(tileMap);
+            s.setPosition(points.get(i).x, points.get(i).y);
+            enemies.add(s);
+
+        }
     }
 
     @Override
@@ -95,6 +116,8 @@ public class Level1State extends GameState {
 
         //player update
         player.update();
+        if (player.isDead()) reset();
+
         tileMap.setPosition(
                 GamePanel.WIDTH / 2 - player.getX(),
                 GamePanel.HEIGHT / 2 - player.getY()
@@ -112,6 +135,7 @@ public class Level1State extends GameState {
             e.update();
             if (e.isDead()) {
                 enemies.remove(i);
+                points.remove(i);
                 i--;
                 explosions.add(new Explosion(e.getX(), e.getY()));
             }
@@ -174,6 +198,7 @@ public class Level1State extends GameState {
         if (k == KeyEvent.VK_E) player.setRolling();
         if (k == KeyEvent.VK_R) player.setScratching();
         if (k == KeyEvent.VK_F5) save();
+        if (k == KeyEvent.VK_ESCAPE) gsm.setState(GameStateManager.MENUSTATE);
 
     }
 
@@ -190,11 +215,12 @@ public class Level1State extends GameState {
     private void reset() {
         player.reset();
         player.setPosition(100, 100);
+        hud.reset();
         populateEnemies();
     }
 
     private void save() {
-        Save save = new Save(player.getHealth());
+        Save save = new Save(player.getHealth(), points);
         try {
             FileOutputStream outputStream = new FileOutputStream(path);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
@@ -204,6 +230,8 @@ public class Level1State extends GameState {
             e.printStackTrace();
         }
     }
+
+
 
     private Save load() throws IOException, ClassNotFoundException {
         FileInputStream fileInputStream = new FileInputStream(path);

@@ -441,9 +441,11 @@ public class Player extends MapObject {
     }
 
     public void reset() {
+        dead = false;
         health = maxHealth;
         facingRight = true;
         currentAction = -1;
+        stop();
     }
     public void stop() {
         left = right = up = down = flinching =
@@ -451,5 +453,11 @@ public class Player extends MapObject {
     }
 
 
+    public boolean isDead() {
+        return dead;
+    }
 
+    public void setDead(boolean dead) {
+        this.dead = dead;
+    }
 }

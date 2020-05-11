@@ -26,7 +26,7 @@ public class BigEnemy extends Enemy {
         cheight = 55;
 
         health = maxHealth = 10;
-        damage = 2;
+        damage = 1;
 
         //load sprites
         try {

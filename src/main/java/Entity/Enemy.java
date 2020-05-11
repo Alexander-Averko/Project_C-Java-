@@ -3,6 +3,7 @@ package Entity;
 import TileMap.TileMap;
 
 import java.awt.*;
+import java.io.Serializable;
 
 public class Enemy extends MapObject {
 

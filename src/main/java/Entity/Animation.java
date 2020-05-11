@@ -1,6 +1,7 @@
 package Entity;
 
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
 public class Animation {
 

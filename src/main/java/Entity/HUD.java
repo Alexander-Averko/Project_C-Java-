@@ -146,4 +146,10 @@ public class HUD {
 
 
     }
+
+    public void reset() {
+        currentHeart = 0;
+        hearts.add(CREATE);
+
+    }
 }

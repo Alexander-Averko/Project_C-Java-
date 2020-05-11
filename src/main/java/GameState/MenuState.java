@@ -6,6 +6,7 @@ import TileMap.Background;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.io.FileInputStream;
 
 
@@ -15,8 +16,17 @@ public class MenuState extends GameState {
 
 
     private int currentChoice = 0;
-    private String[] options = {
-            "START",
+
+    private String[] currentOptions;
+    private String[] options1 = {
+            "RESUME",
+            "NEW GAME",
+            "SETTINGS",
+            "EXIT"
+    };
+
+    private String[] options2 = {
+            "NEW GAME",
             "SETTINGS",
             "EXIT"
     };
@@ -25,6 +35,8 @@ public class MenuState extends GameState {
     private Font titleFont;
 
     private Font font;
+
+    private File file;
 
 
 
@@ -40,11 +52,11 @@ public class MenuState extends GameState {
             titleColor = new Color(128, 0, 0);
             titleFont = new Font("Century Gothic", Font.BOLD, 28);
 
-            //font = Font.createFont(Font.TYPE1_FONT, new FileInputStream("C:\\Users\\Acer\\Documents\\ProjectC\\src\\main\\resources\\Fonts\\of.ttf"))
-            //        .deriveFont(30f);
-            font = new Font("Arial", Font.BOLD, 14);
-            //System.out.println(new FileInputStream("C:\\Users\\Acer\\Documents\\ProjectC\\src\\main\\resources\\Fonts\\font.ttf").available());
 
+            font = new Font("Arial", Font.BOLD, 14);
+            file = new File("src/main/resources/Saves/save.txt");
+            if (file.exists()) currentOptions = options1;
+            else currentOptions = options2;
 
 
 
@@ -70,36 +82,60 @@ public class MenuState extends GameState {
         //draw title
         g.setColor(titleColor);
         g.setFont(titleFont);
-        //g.drawString("Project C", GamePanel.WIDTH * GamePanel.SCALE / 2 , 70);
+
 
         //draw menu options
         g.setFont(font);
-        for (int i = 0; i < options.length; i++) {
+
+        for (int i = 0; i < currentOptions.length; i++) {
             if (i == currentChoice) {
                 g.setColor(Color.WHITE);
             } else {
                 g.setColor(Color.RED);
             }
-            g.drawString(options[i], 230, 155 + i * 15);
+            g.drawString(currentOptions[i], 230, 155 + i * 15);
         }
+
     }
 
 
     private void select() {
-        System.out.println(currentChoice);
-        if (currentChoice == 0) {
+        if (file.exists()) {
+            if (currentChoice == 0) {
+                //resume
+                gsm.setState(GameStateManager.LEVEL1STATE);
+            }
+            if (currentChoice == 1) {
+                //new game
+                deleteSave();
+                gsm.setState(GameStateManager.LEVEL1STATE);
+            }
+            if (currentChoice == 2) {
+                //options
 
-            gsm.setState(GameStateManager.LEVEL1STATE);
-        }
-        if (currentChoice == 1) {
-            //options
+            }
+            if (currentChoice == 3) {
+                //exit
 
-        }
-        if (currentChoice == 2) {
-            //exit
+                System.exit(0);
+            }
+        } else {
+            if (currentChoice == 0) {
+                //new game
+                gsm.setState(GameStateManager.LEVEL1STATE);
+            }
 
-            System.exit(0);
+            if (currentChoice == 1) {
+                //options
+
+            }
+            if (currentChoice == 2) {
+                //exit
+
+                System.exit(0);
+            }
         }
+
     }
 
     @Override
@@ -111,13 +147,13 @@ public class MenuState extends GameState {
         if ((k == KeyEvent.VK_UP)) {
             currentChoice--;
             if (currentChoice == -1) {
-                currentChoice = options.length - 1;
+                currentChoice = currentOptions.length - 1;
             }
         }
 
         if ((k == KeyEvent.VK_DOWN)) {
             currentChoice++;
-            if (currentChoice == options.length) {
+            if (currentChoice == currentOptions.length) {
                 currentChoice = 0;
             }
         }
@@ -126,5 +162,9 @@ public class MenuState extends GameState {
     @Override
     public void keyReleased(int k) {
 
+    }
+
+    private void deleteSave() {
+        file.delete();
     }
 }
